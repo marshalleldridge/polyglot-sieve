@@ -1,12 +1,25 @@
 package edu.cnm.deepdive.scala.bitset
 
+import scala.annotation.tailrec
 import scala.collection.mutable
 
 object Sieve {
 
   def sieve(limit: Int): mutable.BitSet = {
-    // TODO Implement with a BitSet for keeping track of the candidates.
-    throw new UnsupportedOperationException()
+    val candidates = mutable.BitSet.empty ++ (2 to limit)
+    val sqrtLimit = math.sqrt(limit).toInt
+
+    @tailrec
+    def prime(value: Int): Unit = {
+      if (value <= sqrtLimit) {
+        if (candidates contains value) {
+          candidates --= (value * value to limit by value)
+        }
+        prime(value + 1)
+      }
+    }
+    prime(2)
+    candidates
   }
 
   def main(args: Array[String]): Unit = {

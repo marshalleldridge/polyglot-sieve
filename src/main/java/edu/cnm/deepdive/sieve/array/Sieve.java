@@ -1,11 +1,24 @@
 package edu.cnm.deepdive.sieve.array;
 
+import java.util.Arrays;
+import java.util.stream.IntStream;
+
 public class Sieve {
 
   private static int[] sieve(int limit) {
-    // TODO Implement with a boolean[] for keeping track of the candidates, and return an int[] of
-    //  all values found to be prime.
-    throw new UnsupportedOperationException();
+    boolean[] candidates = new boolean[limit + 1];
+    Arrays.fill(candidates, 2, limit + 1, true);
+    for (int prime = 2; prime <= Math.sqrt(limit); prime++) {
+      if (candidates[prime] == true) {
+        for (int multiple = prime * prime; multiple <= limit; multiple += prime) {
+          candidates[multiple] = false;
+        }
+      }
+    }
+    return IntStream
+        .range(0, candidates.length)
+        .filter((value) -> candidates[value])
+        .toArray();
   }
 
   public static void main(String... args) {

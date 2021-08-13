@@ -1,8 +1,17 @@
 package edu.cnm.deepdive.sieve.bitset
 
 static def sieve(int limit) {
-    // TODO Implement with a BitSet for keeping track of the candidates.
-    throw new UnsupportedOperationException();
+    def candidates = new BitSet(limit + 1);
+    candidates[0..1] = false
+    candidates[2..limit] = true
+    def prime = candidates.nextSetBit(0)
+    while (prime <= Math.sqrt(limit)) {
+        ((prime**2)..limit).step(prime) {
+            candidates[it] = false
+        }
+        prime = candidates.nextSetBit(prime+1)
+    }
+    return candidates
 }
 
 def start = System.currentTimeMillis()

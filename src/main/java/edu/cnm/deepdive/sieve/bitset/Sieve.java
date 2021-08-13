@@ -5,8 +5,18 @@ import java.util.BitSet;
 public class Sieve {
 
   private static BitSet sieve(int limit) {
-    // TODO Implement with a BitSet for keeping track of the candidates.
-    throw new UnsupportedOperationException();
+
+    BitSet candidates = new BitSet(limit + 1);
+    candidates.set(2, limit + 1);
+    for (int
+        prime = candidates.nextSetBit(0);
+        prime <= Math.sqrt(limit);
+        prime = candidates.nextSetBit(prime + 1)) {
+      for (int multiple = prime * prime; multiple <= limit; multiple += prime) {
+        candidates.clear(multiple);
+      }
+    }
+    return candidates;
   }
 
   public static void main(String... args) {
